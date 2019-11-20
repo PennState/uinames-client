@@ -1,6 +1,23 @@
 {
-    "name": "Kevin",
-    "surname": "Ortega",
-    "gender": "male",
-    "region": "United States"
+    "name": "Madalena",
+    "surname": "Auer",
+    "gender": "female",
+    "region": "Austria",
+    "age": 33,
+    "title": "ms",
+    "phone": "(700) 826 6443",
+    "birthday": {
+        "dmy": "21\/10\/1986",
+        "mdy": "10\/21\/1986",
+        "raw": 530255981
+    },
+    "email": "madalena86@example.com",
+    "password": "Auer86^)",
+    "credit_card": {
+        "expiration": "9\/23",
+        "number": "1321-2510-4973-4494",
+        "pin": 9915,
+        "security": 697
+    },
+    "photo": "https:\/\/uinames.com\/api\/photos\/female\/20.jpg"
 }
