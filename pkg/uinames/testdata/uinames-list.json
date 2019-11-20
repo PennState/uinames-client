@@ -1,0 +1,32 @@
+[
+    {
+        "name": "John",
+        "surname": "Crawford",
+        "gender": "male",
+        "region": "United States"
+    },
+    {
+        "name": "Agnos",
+        "surname": "Hurezeanu",
+        "gender": "male",
+        "region": "Romania"
+    },
+    {
+        "name": "Lạc",
+        "surname": "Nghiệp",
+        "gender": "male",
+        "region": "Vietnam"
+    },
+    {
+        "name": "Θεοδώρητος",
+        "surname": "Καραμήτσος",
+        "gender": "male",
+        "region": "Greece"
+    },
+    {
+        "name": "Liv",
+        "surname": "Tangen",
+        "gender": "female",
+        "region": "Norway"
+    }
+]
