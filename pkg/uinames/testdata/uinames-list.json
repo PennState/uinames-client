@@ -8,19 +8,19 @@
         "title": "mr",
         "phone": "(562) 150 4951",
         "birthday": {
-            "dmy": "13\/06\/1994",
-            "mdy": "06\/13\/1994",
+            "dmy": "13/06/1994",
+            "mdy": "06/13/1994",
             "raw": 771501723
         },
         "email": "marc_gillet@example.com",
         "password": "Gillet94}",
         "credit_card": {
-            "expiration": "12\/25",
+            "expiration": "12/25",
             "number": "3074-4110-1135-1528",
             "pin": 9410,
             "security": 588
         },
-        "photo": "https:\/\/uinames.com\/api\/photos\/male\/4.jpg"
+        "photo": "https://uinames.com/api/photos/male/4.jpg"
     },
     {
         "name": "Επωπέας",
@@ -31,19 +31,19 @@
         "title": "mr",
         "phone": "(789) 820 7597",
         "birthday": {
-            "dmy": "04\/03\/1991",
-            "mdy": "03\/04\/1991",
+            "dmy": "04/03/1991",
+            "mdy": "03/04/1991",
             "raw": 668076393
         },
         "email": "Επωπέας_91@example.com",
         "password": "Διαμαντόπουλος91=+",
         "credit_card": {
-            "expiration": "3\/23",
+            "expiration": "3/23",
             "number": "2629-2661-5039-3427",
             "pin": 8010,
             "security": 743
         },
-        "photo": "https:\/\/uinames.com\/api\/photos\/male\/20.jpg"
+        "photo": "https://uinames.com/api/photos/male/20.jpg"
     },
     {
         "name": "Anna",
@@ -54,19 +54,19 @@
         "title": "mrs",
         "phone": "(444) 150 2667",
         "birthday": {
-            "dmy": "25\/02\/1992",
-            "mdy": "02\/25\/1992",
+            "dmy": "25/02/1992",
+            "mdy": "02/25/1992",
             "raw": 699055675
         },
         "email": "anna_bates@example.com",
         "password": "Bates92=)",
         "credit_card": {
-            "expiration": "11\/20",
+            "expiration": "11/20",
             "number": "1909-6886-1043-7384",
             "pin": 9409,
             "security": 673
         },
-        "photo": "https:\/\/uinames.com\/api\/photos\/female\/5.jpg"
+        "photo": "https://uinames.com/api/photos/female/5.jpg"
     },
     {
         "name": "Léon",
@@ -77,19 +77,19 @@
         "title": "mr",
         "phone": "(850) 127 9257",
         "birthday": {
-            "dmy": "25\/12\/1988",
-            "mdy": "12\/25\/1988",
+            "dmy": "25/12/1988",
+            "mdy": "12/25/1988",
             "raw": 599035494
         },
         "email": "léon88@example.com",
         "password": "Richard88=^",
         "credit_card": {
-            "expiration": "2\/22",
+            "expiration": "2/22",
             "number": "5433-2066-8289-1631",
             "pin": 8021,
             "security": 611
         },
-        "photo": "https:\/\/uinames.com\/api\/photos\/male\/12.jpg"
+        "photo": "https://uinames.com/api/photos/male/12.jpg"
     },
     {
         "name": "Dominika",
@@ -100,18 +100,18 @@
         "title": "ms",
         "phone": "(337) 735 8350",
         "birthday": {
-            "dmy": "25\/04\/1987",
-            "mdy": "04\/25\/1987",
+            "dmy": "25/04/1987",
+            "mdy": "04/25/1987",
             "raw": 546380146
         },
         "email": "dominika87@example.com",
         "password": "Bača87~+",
         "credit_card": {
-            "expiration": "10\/20",
+            "expiration": "10/20",
             "number": "7863-2828-5928-4126",
             "pin": 3030,
             "security": 598
         },
-        "photo": "https:\/\/uinames.com\/api\/photos\/female\/3.jpg"
+        "photo": "https://uinames.com/api/photos/female/3.jpg"
     }
 ]

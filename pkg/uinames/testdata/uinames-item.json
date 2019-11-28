@@ -7,17 +7,17 @@
     "title": "ms",
     "phone": "(700) 826 6443",
     "birthday": {
-        "dmy": "21\/10\/1986",
-        "mdy": "10\/21\/1986",
+        "dmy": "21/10/1986",
+        "mdy": "10/21/1986",
         "raw": 530255981
     },
     "email": "madalena86@example.com",
     "password": "Auer86^)",
     "credit_card": {
-        "expiration": "9\/23",
+        "expiration": "9/23",
         "number": "1321-2510-4973-4494",
         "pin": 9915,
         "security": 697
     },
-    "photo": "https:\/\/uinames.com\/api\/photos\/female\/20.jpg"
+    "photo": "https://uinames.com/api/photos/female/20.jpg"
 }
