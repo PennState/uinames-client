@@ -27,16 +27,21 @@ const (
 	minLenKey    queryParamKey = "minlen"
 )
 
-type opt func(v *url.Values) error
+// Opt is a function (normally acccessed via a closure) that adds query
+// parameters to the HTTP request.
+type Opt func(v *url.Values) error
 
-func intOpt(k string, i int) opt {
+func intOpt(k string, i int) Opt {
 	return func(v *url.Values) error {
 		v.Set(k, fmt.Sprintf("%v", i))
 		return nil
 	}
 }
 
-func Amount(amount int) opt {
+// Amount is a request option that sets the count of randomized names
+// being requested from the API.  Valid amounts are 1 through 500
+// (inclusive).
+func Amount(amount int) Opt {
 	return func(v *url.Values) error {
 		if amount < 1 || amount > 500 {
 			return errors.New(amountErrorMsg)
@@ -47,7 +52,9 @@ func Amount(amount int) opt {
 	}
 }
 
-func ExtraData() opt {
+// ExtraData is a request option that indicates full identity data should
+// be returned.
+func ExtraData() Opt {
 	return func(v *url.Values) error {
 		v.Set(string(extraDataKey), "")
 		return nil
@@ -61,22 +68,30 @@ const (
 	Male   gender = "male"
 )
 
-func Gender(gender gender) opt {
+// Gender is a request option that indicates that only female or male
+// identities should be return.
+func Gender(gender gender) Opt {
 	return func(v *url.Values) error {
 		v.Set(string(genderKey), string(gender))
 		return nil
 	}
 }
 
-func MaximumLength(max int) opt {
+// MaximumLength is a request option that specifies the maximum number
+// of characters expected in the returned name.
+func MaximumLength(max int) Opt {
 	return intOpt(string(maxLenKey), max)
 }
 
-func MinimumLength(min int) opt {
+// MinimumLength is a request option that specifies the minimum number
+// of characters expected in the returned name.
+func MinimumLength(min int) Opt {
 	return intOpt(string(minLenKey), min)
 }
 
-func Region(region string) opt {
+// Region is a request option that specifies thta returned identities
+// should only be from the requested geographic region.
+func Region(region string) Opt {
 	return func(v *url.Values) error {
 		v.Set(string(regionKey), region)
 		return nil
@@ -87,12 +102,16 @@ type Request struct {
 	*http.Request
 }
 
-func NewRequest(opts ...opt) (*Request, error) {
+// NewRequest creates an HTTP request based on the included request
+// options.  Requests can be used multiple times by calling the Get()
+// function but there is no provision for rate limiting the request
+// as required by the uinames API.
+func NewRequest(opts ...Opt) (*Request, error) {
 	// URL is known to be valid at this point
 	u, _ := url.Parse(URL)
 	v := url.Values{}
-	for _, opt := range opts {
-		err := opt(&v)
+	for _, Opt := range opts {
+		err := Opt(&v)
 		if err != nil {
 			return nil, err
 		}
@@ -107,6 +126,8 @@ func NewRequest(opts ...opt) (*Request, error) {
 	}, nil
 }
 
+// Get returns an array of identities returned from the uinames API as
+// specified by the Request.
 func (r *Request) Get() ([]Response, error) {
 	return r.get(&http.Client{})
 }
@@ -133,6 +154,9 @@ func (r *Request) get(cl *http.Client) ([]Response, error) {
 	return append(rl, ri), err
 }
 
+// Response contains an individual identity returned from the uinames
+// API.  If the ExtraData request option is not included, most of this
+// struct's fields will be empty.
 type Response struct {
 	Name       string     `json:"name"`
 	Surname    string     `json:"surname"`
@@ -148,6 +172,8 @@ type Response struct {
 	Photo      string     `json:"photo"` // TODO: convert to URL
 }
 
+// Birthdate is a specialization of time.Time which has an indeterminate
+// timezone and with the time fields set to midnight.
 type Birthdate time.Time
 
 func (b Birthdate) UnmarshalJSON(data []byte) error {
@@ -160,9 +186,16 @@ func (b Birthdate) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	t, err := time.Parse(time.UnixDate, fmt.Sprintf("%d", dob.raw))
+	if err != nil {
+		return err
+	}
+	b = Birthdate(t)
 	return nil
 }
 
+// CreditCard encapsulates set of fields commonly associated with a credit
+// or debit card.
 type CreditCard struct {
 	Expiration string `json:"expiration"`
 	Number     string `json:"number"`
@@ -170,12 +203,15 @@ type CreditCard struct {
 	Security   int    `json:"security"`
 }
 
+// UINamesError is an error that encapsulates both the HTTP status and the
+// message returned from the uinames API.
 type UINamesError struct {
 	Message    string `json:"error"`
 	Status     string `json:"-"`
 	StatusCode int    `json:"-"`
 }
 
+// Error implements https://golang.org/pkg/builtin/#error
 func (e UINamesError) Error() string {
 	return e.Status + " - " + e.Message
 }

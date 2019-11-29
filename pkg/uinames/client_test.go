@@ -41,11 +41,11 @@ func TestAmountWithInvalidValues(t *testing.T) {
 func TestNewRequest(t *testing.T) {
 	tests := []struct {
 		Name string
-		Opts []opt
+		Opts []Opt
 		URL  string
 	}{
-		{"No opts", []opt{}, URL},
-		{"All opts", []opt{
+		{"No opts", []Opt{}, URL},
+		{"All opts", []Opt{
 			Amount(5),
 			ExtraData(),
 			Gender(Female),
@@ -67,7 +67,7 @@ func TestNewRequest(t *testing.T) {
 
 const errorOptMsg = "I can't work like this"
 
-func errorOpt(t *testing.T) opt {
+func errorOpt(t *testing.T) Opt {
 	t.Helper()
 	return func(v *url.Values) error {
 		return errors.New(errorOptMsg)
@@ -75,7 +75,7 @@ func errorOpt(t *testing.T) opt {
 }
 
 func TestNewRequestWithErroringOpt(t *testing.T) {
-	opts := []opt{errorOpt(t)}
+	opts := []Opt{errorOpt(t)}
 	_, err := NewRequest(opts...)
 	require.Error(t, err)
 	assert.Equal(t, errorOptMsg, err.Error())
