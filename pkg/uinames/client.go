@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -158,39 +159,42 @@ func (r *Request) get(cl *http.Client) ([]Response, error) {
 // API.  If the ExtraData request option is not included, most of this
 // struct's fields will be empty.
 type Response struct {
-	Name       string     `json:"name"`
-	Surname    string     `json:"surname"`
-	Gender     string     `json:"gender"`
-	Region     string     `json:"region"`
-	Age        int        `json:"age"`
-	Title      string     `json:"title"`
-	Phone      string     `json:"phone"`
-	Birthdate  Birthdate  `json:"birthday"`
+	Name       string `json:"name"`
+	Surname    string `json:"surname"`
+	Gender     string `json:"gender"`
+	Region     string `json:"region"`
+	Age        int    `json:"age"`
+	Title      string `json:"title"`
+	Phone      string `json:"phone"`
+	Birthdate  time.Time
 	Email      string     `json:"email"`
 	Password   string     `json:"password"`
 	CreditCard CreditCard `json:"credit_card"`
 	Photo      string     `json:"photo"` // TODO: convert to URL
 }
 
-// Birthdate is a specialization of time.Time which has an indeterminate
-// timezone and with the time fields set to midnight.
-type Birthdate time.Time
-
-func (b Birthdate) UnmarshalJSON(data []byte) error {
-	dob := struct {
-		raw int64 `json:"raw"`
+func (r *Response) UnmarshalJSON(data []byte) error {
+	type Birthday struct {
+		DMY string `json:"dmy"`
+		MDY string `json:"mdy"`
+		Raw int    `json:"raw"`
+	}
+	type Alias Response
+	alias := &struct {
+		*Alias
+		Birthdate Birthday `json:"birthday"`
 	}{
-		raw: 0,
+		Alias: (*Alias)(r),
 	}
-	err := json.Unmarshal(data, &dob)
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return err
+	}
+	log.Info("MDY: ", alias.Birthdate.MDY)
+	dob, err := time.Parse("01/02/2006", alias.Birthdate.MDY)
 	if err != nil {
 		return err
 	}
-	t, err := time.Parse(time.UnixDate, fmt.Sprintf("%d", dob.raw))
-	if err != nil {
-		return err
-	}
-	b = Birthdate(t)
+	r.Birthdate = dob
 	return nil
 }
 

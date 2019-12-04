@@ -161,7 +161,6 @@ func TestGet(t *testing.T) {
 			log.Info("Error: ", err)
 			if err != nil {
 				assertError(t, err)
-				assert.Fail(t, "")
 				return
 			}
 			assertResponse(t, resp)
