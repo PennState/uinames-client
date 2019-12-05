@@ -53,7 +53,9 @@ func Amount(amount int) Opt {
 }
 
 // ExtraData is a request option that indicates full identity data should
-// be returned.
+// be returned.  When this option is not included, only Name, SurName,
+// Gender and Region are returned (all other fields will be either nil or
+// set to their zero values.)
 func ExtraData() Opt {
 	return func(v *url.Values) error {
 		v.Set(string(extraDataKey), "")
