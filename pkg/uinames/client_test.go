@@ -123,7 +123,7 @@ func assertResponse(t assert.TestingT, object interface{}, msgsAndArgs ...interf
 }
 
 func assertError(t assert.TestingT, object interface{}, msgAndArgs ...interface{}) bool {
-	err, ok := object.(UINamesError)
+	err, ok := object.(Error)
 	if !ok {
 		assert.FailNow(t, "assertError requires a non-nil UINamesError object")
 	}

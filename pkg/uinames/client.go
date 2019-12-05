@@ -217,21 +217,21 @@ type CreditCard struct {
 	Security   int    `json:"security"`
 }
 
-// UINamesError is an error that encapsulates both the HTTP status and the
+// Error is an error that encapsulates both the HTTP status and the
 // message returned from the uinames API.
-type UINamesError struct {
+type Error struct {
 	Message    string `json:"error"`
 	Status     string `json:"-"`
 	StatusCode int    `json:"-"`
 }
 
 // Error implements https://golang.org/pkg/builtin/#error
-func (e UINamesError) Error() string {
+func (e Error) Error() string {
 	return e.Status + " - " + e.Message
 }
 
 func unmarshalError(resp *http.Response) error {
-	e := UINamesError{
+	e := Error{
 		Status:     resp.Status,
 		StatusCode: resp.StatusCode,
 	}
