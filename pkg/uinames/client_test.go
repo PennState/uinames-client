@@ -10,7 +10,6 @@ import (
 	"strings"
 	"testing"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -113,15 +112,14 @@ func assertResponse(t assert.TestingT, object interface{}, msgsAndArgs ...interf
 		assert.NotZero(ri.Age) &&
 		assert.NotEmpty(ri.Title) &&
 		assert.NotEmpty(ri.Phone) &&
-		// TODO: Add checks for birthday
 		assert.NotZero(ri.Birthdate) &&
 		assert.NotEmpty(ri.Email) &&
 		assert.NotEmpty(ri.Password) &&
 		assert.NotEmpty(ri.CreditCard.Expiration) &&
 		assert.NotEmpty(ri.CreditCard.Number) &&
 		assert.NotZero(ri.CreditCard.Pin) &&
-		assert.NotZero(ri.CreditCard.Security) // &&
-	//assert.NotEmpty(ri.Photo)
+		assert.NotZero(ri.CreditCard.Security) &&
+		assert.NotEmpty(ri.Photo)
 }
 
 func assertError(t assert.TestingT, object interface{}, msgAndArgs ...interface{}) bool {
@@ -157,8 +155,6 @@ func TestGet(t *testing.T) {
 			req, err := NewRequest()
 			require.NoError(t, err)
 			resp, err := req.get(cl)
-			log.Info("Response: ", resp)
-			log.Info("Error: ", err)
 			if err != nil {
 				assertError(t, err)
 				return

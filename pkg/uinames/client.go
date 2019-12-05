@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -90,7 +89,7 @@ func MinimumLength(min int) Opt {
 	return intOpt(string(minLenKey), min)
 }
 
-// Region is a request option that specifies thta returned identities
+// Region is a request option that specifies that returned identities
 // should only be from the requested geographic region.
 func Region(region string) Opt {
 	return func(v *url.Values) error {
@@ -170,31 +169,42 @@ type Response struct {
 	Email      string     `json:"email"`
 	Password   string     `json:"password"`
 	CreditCard CreditCard `json:"credit_card"`
-	Photo      string     `json:"photo"` // TODO: convert to URL
+	Photo      *url.URL
 }
 
+// UnmarshalJSON implements https://golang.org/pkg/encoding/json/#Unmarshaler
 func (r *Response) UnmarshalJSON(data []byte) error {
 	type Birthday struct {
 		DMY string `json:"dmy"`
 		MDY string `json:"mdy"`
 		Raw int    `json:"raw"`
 	}
+
 	type Alias Response
 	alias := &struct {
 		*Alias
 		Birthdate Birthday `json:"birthday"`
+		Photo     string   `json:"photo"`
 	}{
 		Alias: (*Alias)(r),
 	}
+
 	if err := json.Unmarshal(data, &alias); err != nil {
 		return err
 	}
-	log.Info("MDY: ", alias.Birthdate.MDY)
+
 	dob, err := time.Parse("01/02/2006", alias.Birthdate.MDY)
 	if err != nil {
 		return err
 	}
 	r.Birthdate = dob
+
+	photo, err := url.Parse(alias.Photo)
+	if err != nil {
+		return err
+	}
+	r.Photo = photo
+
 	return nil
 }
 
